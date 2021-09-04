@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import {NavigationContainer} from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import {createStackNavigator} from '@react-navigation/stack';
+import { Component } from 'react';
+import signupPage from './src/screens/signupPage';
+import loginPage from './src/screens/loginPage';
+import mainPage from './src/screens/mainPage';
+import { createAppContainer } from 'react-navigation';
+import * as Font from 'expo-font';
+const Stack = createStackNavigator();
+
+
+class App extends React.Component{
+
+  state = {
+    isReady : false
+  }
+  componentDidMount = async() => {
+    await Font.loadAsync({
+      BM: require("./assets/fonts/BMYEONSUNG_otf.otf")
+    });
+    this.setState({isReady:true});
+  }
+  render(){
+  return(
+    <NavigationContainer>
+      <Stack.Navigator screenOptions = {{
+        headerShown:false,
+      }}>
+        <Stack.Screen name="mainPage" component={mainPage}/>
+        <Stack.Screen name="loginPage" component={loginPage}/>
+        <Stack.Screen name="signupPage" component={signupPage}/>
+      </Stack.Navigator>
+
+    </NavigationContainer>
+  )
+
+    }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
