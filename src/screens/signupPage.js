@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { useState, Component } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TextInput, Button, Alert, TouchableOpacity, CheckBox } from 'react-native';
+import { Image,SafeAreaView, View, Text, StyleSheet, TextInput, Button, Alert, TouchableOpacity, CheckBox } from 'react-native';
 
 const signupPage = (props) => {
     const [userId, setUserId] = useState('');
@@ -102,9 +102,14 @@ const signupPage = (props) => {
 
                 <Text style={signupstyle.toptextstyle}>
                     회원 가입</Text >
+                <View style={[{flexDirection:'row'}]}>
                 <Text style={signupstyle.textstyle}>
                     멍이랑 냥이랑
                 </Text>
+                <Image style={signupstyle.logoImage}
+                    source={require('../../assets/IconImage.png')}
+                />
+                </View>
             </View>
             <View style={signupstyle.contents}>
                 <Text style={signupstyle.contText}>아이디</Text>
@@ -179,8 +184,8 @@ const signupPage = (props) => {
                     }}
 
                 />
-                <View style={signupstyle.vi}>
-                    <Text style={signupstyle.contText}>개인정보 수집이용 동의약관</Text>
+                <View style={[{flexDirection:'row'},{position:'relative'},{height:80}]}>
+                    <Text style={[signupstyle.contText]}>개인정보 수집이용 동의약관</Text>
                     <CheckBox
                         name="userterm"
                         title='개인정보수집에 동의하십니까?'
@@ -190,13 +195,13 @@ const signupPage = (props) => {
                         style={signupstyle.checkbox}
                     >
                     </CheckBox>
-
+                    
                 </View>
 
                 <TouchableOpacity style={signupstyle.button} onPress={handleSubmitButon}>
                     <Text style={signupstyle.buttontext}>회원 가입</Text>
 
-                </TouchableOpacity>
+                    </TouchableOpacity>
 
             </View>
 
@@ -213,6 +218,7 @@ const signupstyle = StyleSheet.create({
         backgroundColor: '#FFEEDB',
         height: 250,
         alignItems: 'center',
+        
     },
     toptextstyle: {
         fontFamily: 'BM',
@@ -220,23 +226,25 @@ const signupstyle = StyleSheet.create({
         fontSize: 30,
         position: 'relative',
         paddingTop: 20,
+       
 
 
     },
     textstyle: {
         fontFamily: 'BM',
-        fontSize: 45,
+        fontSize: 40,
         position: 'relative',
-        top: 110,
-        left: -70,
+        top: 100,
+        left: 10,
+        
 
     },
     contents: {
         borderRadius: 50,
         backgroundColor: '#FFFFFF',
         position: 'relative',
-        top: -20,
-        height: 700,
+        top: -30,
+        height: 600,
         borderColor: 'black',
 
     },
@@ -247,7 +255,10 @@ const signupstyle = StyleSheet.create({
         top: 30,
         left: 40,
         marginBottom: 30,
+        
+        height:25,
     },
+    
     textinput: {
         fontFamily: 'BM',
         height: 40,
@@ -259,6 +270,7 @@ const signupstyle = StyleSheet.create({
         left: 50,
         marginBottom: -15,
         marginTop: 5,
+        top:-5,
 
     },
     smallbutton: {
@@ -284,6 +296,8 @@ const signupstyle = StyleSheet.create({
         marginBottom: -15,
         marginTop: -5,
         height: 40,
+        top:7,
+        
     },
     button: {
         backgroundColor: '#DF5F5F',
@@ -291,7 +305,7 @@ const signupstyle = StyleSheet.create({
         height: 50,
         width: 140,
         position: 'relative',
-        top: 80,
+        top: 50,
         left: 140,
         borderRadius: 30,
     },
@@ -313,6 +327,19 @@ const signupstyle = StyleSheet.create({
         position: 'relative',
         top: 30,
         left: 60,
+        width:20,
+        height:20,
+    },
+   
+    logoImage:{
+        width:180,
+        height:180,
+        resizeMode: 'contain' ,
+        position: 'relative',
+        left:10,
+        top:-40,
+        
+
     }
 
 })
