@@ -46,7 +46,7 @@ import { createAppContainer } from 'react-navigation';
 
 const loginPage = (props) => {
     const [userId , setUserId] = useState('');
-    const [userPW , setUserPassword] = useState('');
+    const [userPW , setUserPW] = useState('');
     // 회원정보 데이터 넘기는 함수 
     const handleSubmitButton = () => {
         //입력 안할 시 
@@ -59,14 +59,14 @@ const loginPage = (props) => {
             return;
         }
         //fetch 사용 
-        fetch("http://localhost:8001/auth/login", {
+        fetch("http://localhost:3030/auth/login", {
             method: "POST",
             headers: { //HTTP header와 대응되는 객체 
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({ //request에 실을 데이터(객체타입)
-                email: userId,
-                password: userPW})
+                id: userId,
+                pw: userPW})
         })
         // .then(response => console.log("response"))
         .then(res => res.json()) //fetch를 호출하면 가져올 객체 
@@ -99,13 +99,19 @@ const loginPage = (props) => {
                         type="userId"
                         style={loginStyle.idTextInput}
                         placeholder="아이디를 입력해주세요"
-                        onChangeText={(userId)=> setUserId({userId})}
+                        onChange={(e) => {
+                            const { eventCount, target, text } = e.nativeEvent;
+                            setUserId(text);
+                        }}
                     />
                     <TextInput 
                         type = "userPassword"
                         style={loginStyle.pwTextInput}
                         placeholder="비밀번호를 입력해주세요"
-                        onChangeText ={(userPassword)=> setUserPassword({userPassword})}
+                        onChange={(e) => {
+                            const { eventCount, target, text } = e.nativeEvent;
+                            setUserPW(text);
+                        }}
 
                     />
                     <View style = {loginStyle.smallText}>

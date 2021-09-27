@@ -39,7 +39,7 @@ const signupPage = (props) => {
         }
 
 
-        fetch('http://localhost:3003/auth/join', {
+        fetch('http://localhost:3030/auth/join', { 
             method: "POST",
             body: JSON.stringify({
                 id: userId,
