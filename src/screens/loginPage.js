@@ -74,8 +74,8 @@ const loginPage = (props) => {
             if (res.success) {
                 console.log('%{userID}');
                 alert('login 성공');
-                this.loginStatus.
-                this.props.history.push("MainPage"); //잘 받아오면 mainPage로 이동
+                //this.loginStatus;
+                //this.props.history.push("MainPage"); //잘 받아오면 mainPage로 이동
             } else if (!res.success) { //확인 
                 alert("올바른 회원이 아닙니다");
                 this.props.history.push("loginPage");
