@@ -4,14 +4,16 @@ import {Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import { render } from 'react-dom';
 import { createStackNavigator } from '@react-navigation/stack';
-import signupPage from '../screens/signupPage';
-import loginPage from '../screens/loginPage';
-
+import Maintopbar from './Maintopbar';
 import { createAppContainer } from 'react-navigation';
 
 function mainPage({navigation}){
     return(
+         
+        
         <View style={styles.total}>
+            
+            <Maintopbar/> 
             <View style={styles.AppName}>
                 <Text style ={{fontSize:50},{fontFamily:'BM'}}>
                     멍이랑 냥이랑 
@@ -55,7 +57,8 @@ const AppNavigator = createStackNavigator(
 );*/
 const styles = StyleSheet.create({
     total:{
-        flex:1,
+        height:700,
+        top:52,
     },
     AppName:{
         fontFamily:'BM',
