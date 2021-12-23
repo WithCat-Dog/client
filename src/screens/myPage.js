@@ -11,16 +11,19 @@ const myPage = ({navigation})=>{
 
     const mounted = useRef(false);
 
+
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [tel, setTel] = useState(''); 
+
     const [pw, setPw] = useState("");
     
     const [nicknameDialog, setNicknameDialog] = useState(false);
     const [telDialog, setTelDialog] = useState(false);
     const [pwDialog, setPwDialog] = useState(false);
+
 
     // useEffect( ()=>{
     //     // if(!mounted.current){
@@ -61,17 +64,8 @@ const myPage = ({navigation})=>{
         }catch(e){
             console.log(e);
         }
-    },[]); 
+    },[]);  
 
-    // useEffect( ()=>{
-    //     // if(!mounted.current){
-    //     //     mounted.current=true;
-    //     // }else{
-    //         setTel(tel);
-    //         console.log("전화번호:"+tel);
-    //         handleChangeTel();
-        
-    // },[tel]);
 
     const changeInfo = useCallback((menu)=>{
         if(menu=="PW"){
@@ -124,6 +118,7 @@ const myPage = ({navigation})=>{
             </View>
         )
     },[nickname, tel, pw]);
+
      
     const handleChangeNick = useCallback((nick)=>{
         if(!mounted.current){
@@ -135,6 +130,7 @@ const myPage = ({navigation})=>{
                         body: JSON.stringify({
                             id : getCookie('rememberId'),
                             newNickname : nick
+
                         }),
                         headers: {
                             'Content-Type': 'application/json',
@@ -142,6 +138,7 @@ const myPage = ({navigation})=>{
                     })
                     .then(res=>res.json())
                     .then(res=>{console.log(res)})
+
             }catch(e){
                 console.log(e);
             }
@@ -158,6 +155,7 @@ const myPage = ({navigation})=>{
                         body: JSON.stringify({
                             id : getCookie('rememberId'),
                             newTel : phone
+
                         }),
                         headers: {
                             'Content-Type': 'application/json',
@@ -168,6 +166,7 @@ const myPage = ({navigation})=>{
             }catch(e){
                 console.log(e);
             }
+
         }
     },[]);
     
@@ -206,12 +205,16 @@ const myPage = ({navigation})=>{
              
            </View>
            <View style ={{flex:0.9,left:'10%'}}>
+
                <TouchableOpacity style = {{flex:1}} onPress={()=>navigation.navigate('mynoticelist')}>
+
                    <Text style ={{fontSize:20,fontWeight:'bold'}}>
                        내가 쓴 게시글 보러가기
                    </Text>
                </TouchableOpacity>
+
            </View> 
+
             <DialogInput isDialogVisible={pwDialog}
                 title={"비밀번호 변경"}
                 message={"새 비밀번호를 입력하세요"}
@@ -227,6 +230,7 @@ const myPage = ({navigation})=>{
                 submitInput = {(inputText) => {setTel(inputText); setTelDialog(false);handleChangeTel(inputText);}}
                 closeDialog={()=>{setTelDialog(false)}}>
 
+
             </DialogInput>  
 
             <DialogInput isDialogVisible={nicknameDialog}
@@ -234,6 +238,7 @@ const myPage = ({navigation})=>{
                 message={"새 닉네임을 입력하세요"}
                 hintInput={"닉네임 입력"}
                 submitInput = {(inputText) => {setNickname(inputText);setNicknameDialog(false);handleChangeNick(inputText)}}
+
                 closeDialog={()=>{setNicknameDialog(false); }}>
             </DialogInput>  
         </SafeAreaView>

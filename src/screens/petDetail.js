@@ -10,13 +10,13 @@ const petDetail = ({route,navigation}) => {
     // const [url,setuserId] = useState(logo);
     // const [petName,setuserPassword] = useState('내이름');
     // const [petIntro,setconfirmPw] = useState('안뇽 ');
-    console.log(petIntro);
+    console.log(nickname);
     return (
     <SafeAreaView style={styles.safe}>    
         <View style={styles._topView}>
             <View style={styles.nickView}>
                 <Text style={styles.infoText}>{nickname}</Text>
-                <Text style={styles.text}>님의 펫</Text>
+                <Text style={styles.text}>{nickname}님의 펫</Text>
             </View>
             <View style={styles.imgView}>
                 <View style={styles.imageView}>

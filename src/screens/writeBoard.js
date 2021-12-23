@@ -14,15 +14,18 @@ import {
     CheckBox, 
     Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기 
-import ImagePicker, {launchImageLibrary,showImagePicker} from 'react-native-image-picker';
+
 import { getCookie } from '../cookie/cookie';
+
 
 
 
 
 const writeBoard = ({route,navigation}) => {
 
+
     const {date} = route.params;
+
     const [title ,setTitle] = useState('');
     const [content , setContent] = useState('');
     const [imageis,setImageis] = useState(false);
@@ -30,7 +33,6 @@ const writeBoard = ({route,navigation}) => {
     const [source, setSource] = useState();
     const [all, setAll] = useState();
     const [url, setUrl] = useState(undefined);
-
     const [time, setTime] = useState('');
     let today = new Date();
 
@@ -81,7 +83,10 @@ const writeBoard = ({route,navigation}) => {
         await fetch('http://localhost:3030/post/contents', {
             method : "POST",
             body : JSON.stringify({
+
                 pId : getCookie('rememberId'),
+
+
                 urls : url,
                 title : title,
                 content : content,

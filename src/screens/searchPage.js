@@ -7,6 +7,8 @@ import ButtonToggleGroup from 'react-native-button-toggle-group';
 import { ScrollView } from 'react-native-gesture-handler';
 import { renderMatches } from 'react-router-dom';
 
+import { getCookie } from '../cookie/cookie';
+
 
 
 const searchPage = ({navigation}) => {
@@ -17,8 +19,10 @@ const searchPage = ({navigation}) => {
     var searchdata = undefined;
 
 
-    const oid = "ex2";
+
+    const oid = getCookie("rememberId");
     const onickname = "멍냥";
+    //닉네임 받아오기!!
 
     const [otype,setType] = useState("");
     const [osize,setSize] = useState("");
@@ -28,20 +32,7 @@ const searchPage = ({navigation}) => {
     const [olicense,setLicense] = useState(-1);
     const [petSitterArray,Setpetsitterarray] =useState([ ]);
     const [success,Setsuccess] =useState(false);
-    // {sid:'1',snickName:'1',ssize:'1',sage:'1',sexperience:1,slicense:1,stype:'1',ssex:'1'}
 
-//   useEffect(()=>{
-//     Setpetsitterarray(petSitterArray=>([...petSitterArray,searchdata]));
-//     console.log('searchdata'+searchdata);
-//     console.log(petSitterArray)
-// },[searchdata]);
-
-//   function createPetSitters(id,nickname,residence,type,sex,experience,license) {
-//     return {id,nickname,residence,type,sex,experience,license}
-// }
-//   const setpetsitter =(searchdata)=>{
-     
-//   }
 
 useEffect( ()=>{
     if(mounted.current){

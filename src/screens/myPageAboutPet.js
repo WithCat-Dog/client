@@ -5,6 +5,7 @@ import ImagePicker, {launchImageLibrary,showImagePicker} from 'react-native-imag
 import { Flex } from 'native-base';
 import { getCookie } from '../cookie/cookie';
 
+
 const myPageAboutPet = ({navigation})=>{
     const mounted = useRef(false);
 
@@ -29,6 +30,7 @@ const myPageAboutPet = ({navigation})=>{
     },[url]);
 
 
+
      useEffect(()=>{
         // if(!mounted.current){
             try{
@@ -36,6 +38,7 @@ const myPageAboutPet = ({navigation})=>{
                     method: "POST",
                     body : JSON.stringify({
                     id : getCookie('rememberId')
+
                     }),
                     headers: {
                         'Content-Type': 'application/json',
@@ -43,10 +46,7 @@ const myPageAboutPet = ({navigation})=>{
                 }).then(res => res.json())
                 .then((res)=> {      
                     if(res.success===false){
-
-
                         Alert.alert('마이펫 불러오기 실패');
-
                     }else if (res.success===true){
                         if(res.data!="0"){
                             console.log(res.data);
@@ -63,6 +63,7 @@ const myPageAboutPet = ({navigation})=>{
                 })}catch(e){
                     console.log(e);
                 }
+
         // else {
         //     mounted.current=true;
         // }
@@ -110,6 +111,7 @@ const myPageAboutPet = ({navigation})=>{
                 method : "POST",
                 body : JSON.stringify({
                     mId : getCookie('rememberId'),
+
                     urls : url,
                     petName : petName,
                     content : petIntro,

@@ -36,6 +36,7 @@ const petList =({navigation})=>{
 
     const renderItem = ({item})=>(
         <TouchableOpacity style = {styles.contentstyle} onPress={()=>navigation.navigate('petdetail',{id:item.mId, nickname:item.nickname, petName:item.petName, petIntro:item.content,url:item.url})}>
+            {console.log('itme',item.nickname)}
             <View style={{flexDirection:'row', alignItems:'center'}}>
                 <View>
                     <Image style={styles.petImage} source={{uri:item.url}}/>

@@ -4,16 +4,8 @@ import {SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ScrollVie
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import logo from '../assets/images/mung.png'
 
-
-// owner의 넘겨준 정보 받아오기
-
-
-
-
-
-
-
 const matching = ({route,navigation}) => {
+
     const [applied,appliedSet] = useState(false);
     const {owner,petSitterArray,result} = route.params;
     console.log("여기부터 matching.js");

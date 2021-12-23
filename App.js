@@ -27,11 +27,11 @@ import boardDetail from './src/screens/boardDetail';
 import applier from './src/screens/applier';
 import petDetail from './src/screens/petDetail';
 import petList from './src/screens/petList';
-
+import MynoticeList from './src/screens/MynoticeList';
 import { setCookie,getCookie } from './src/cookie/cookie';
 import Loading from './src/screens/Loading';
 import Calendar from './src/screens/calendar';
-import MynoticeList from './src/screens/MynoticeList';
+
 
 const signupnavigation = createStackNavigator();
 const mainnavigation = createStackNavigator();

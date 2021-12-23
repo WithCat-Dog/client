@@ -26,7 +26,6 @@ const noticeList =({navigation})=>{
                 }else{
                     for (let i =res.data.length-1;i>=0;i--){        
                         savedata = res.data[i];
-                        
                         SetNoticearray(Noticearray=>([...Noticearray, savedata]));                            
                     }    
                 } 
@@ -49,15 +48,16 @@ const noticeList =({navigation})=>{
       ]);
 
     const renderItem = ({item})=>(
-        
 
-        <TouchableOpacity style = {styles.contentstyle} onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time,wanttime:item.targetDate})}>
-                  <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
-                  <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
-                  <View style ={{position:'absolute',top:'80%',left:'70%'}}><Text>{item.time}</Text></View>
-                  
-        </TouchableOpacity>
-        
+            <TouchableOpacity style = {item.closed?(styles.unabledContentstyle):(styles.contentstyle)} 
+                disabled={item.closed?(true):(false)}
+                onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time,wanttime:item.targetDate})}>
+                <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
+                <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
+                <View style ={{position:'absolute',top:'80%',left:'70%'}}><Text>{item.time}</Text></View>
+                {console.log(item.targetDate)}
+            </TouchableOpacity>
+
     );
 
     const Icon = ()=>{
@@ -102,9 +102,16 @@ const styles = StyleSheet.create({
         width:337,
 
         height:120,
+    },
+    unabledContentstyle :{
+        borderColor:'black',
+        borderRadius:20,
+        borderWidth:1,
+        marginBottom:15,
+        width:337,
+        height:120,
+        opacity : 0.4
 
-        
-        
     },
     noticetitle :{
         fontSize:17, 
