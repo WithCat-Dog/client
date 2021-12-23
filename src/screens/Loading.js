@@ -3,7 +3,7 @@ import {Image, SafeAreaView,View, Text,StyleSheet,TextInput,Button,Alert,Touchab
 
 import { get } from '../../../server/routes/auth';
 import { getCookie } from '../cookie/cookie';
-
+   //dsfj
 export default Loading = ({navigation})=>{
     useEffect(()=>{
         setTimeout(()=>{
