@@ -51,7 +51,7 @@ const myPage = ({navigation})=>{
             setNicknameDialog(true);
         }
     },[]);
-<<<<<<< HEAD
+
     const logoutbutton = ()=>{
         try{
             fetch('http://localhost:3030/auth/logout', { 
@@ -75,9 +75,7 @@ const myPage = ({navigation})=>{
         }
 
     }
-=======
 
->>>>>>> feature_seoyoung
     const Buttons = ({menu})=>{
         return(
             <TouchableOpacity style={styles.buttonStyle} onPress={()=>changeInfo(menu)}>
@@ -137,14 +135,12 @@ const myPage = ({navigation})=>{
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
             <View style={styles.topView}>
-<<<<<<< HEAD
                 <View>
                     <TouchableOpacity onPress={logoutbutton}>
                         <Text>로그아웃</Text>
                     </TouchableOpacity>
                 </View>
-=======
->>>>>>> feature_seoyoung
+
                 <View style={{ flex:1.5,marginTop:10, justifyContent : 'center',alignItems : 'center'}}>
                     <View style={styles.imageView}>
                         <Image source={logo} style={styles.imageStyle}/>

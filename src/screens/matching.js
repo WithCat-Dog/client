@@ -53,7 +53,6 @@ const matching = ({route,navigation}) => {
             console.log(err);
         }
     }
->>>>>>> feature_seoyoung
     //owner 배열 
     //petSitter 배열 [{sid,snickname,sresidence,stype,ssex,sage,sexperience,slicense}]
 

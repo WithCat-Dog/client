@@ -99,11 +99,9 @@ const styles = StyleSheet.create({
         borderWidth:1,
         marginBottom:15,
         width:337,
-<<<<<<< HEAD
+
         height:120,
-=======
-        height:140,
->>>>>>> feature_seoyoung
+
         
         
     },
