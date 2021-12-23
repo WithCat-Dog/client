@@ -1,0 +1,126 @@
+import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
+import  React,{useCallback, useEffect,useState} from 'react';
+import { FlatList,SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView } from 'react-native';
+import ActionButton from 'react-native-action-button';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const noticeList =({navigation})=>{
+    var savedata=undefined;
+    
+
+    useEffect(()=>{
+        try{
+            fetch('http://localhost:3030/post/postList', { 
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => res.json())
+            .then((res)=> {      
+                if(res===undefined){
+                    alert('오류');
+                }else{
+                    for (let i =res.data.length-1;i>=0;i--){        
+                        savedata = res.data[i];
+                        SetNoticearray(Noticearray=>([...Noticearray, savedata]));                            
+                    }    
+                } 
+            })
+        }catch(e){
+            console.log(e);
+        }
+    },[]);
+       
+        
+    
+    const [Noticearray,SetNoticearray]= useState([
+    //        {index:'1',pid:'ss',title:'(11월 24일) 책임감을 갖고 봐줄 펫시터 분 구해요',content:'서울 성북구, 강아지 3시간정도 봐줄 분 구합니다, 반려견 키워본 경험이 있는 사람으로 원합니다. 펫은 말티즈로 소형견입니다 똥오줌 잘가리고 물지도 않아요 잘 봐주실 분~~~',time:'2021-11-21'},
+    //        {index:'2',pid:'ss',title:'(11월 23일) 책임감을 갖고 봐줄 펫시터분 구해요',content:'서울 성북구, 강아지 3시간 정도 봐주세요',time:'2021-11-21'},
+    //        {index:'3',pid:'ss',title:'(11월 22일) 코숏 고등어태비 봐주실 분 있나요', content:'4~6시 사이에 화장실 갈아주기, 사냥놀이 해주기',time:'2021-11-21'},
+    //        {index:'4',pid:'ss',title:'(11월 21일) 말티즈 강쥐 봐주실분 있나요', content:'4~6시 사이에 화장실 갈아주기, 사냥놀이 해주기',time:'2021-11-21'},
+    //        {index:'5',pid:'ss',title:'(11월 21일) 러시안 블루 3일 밥 놔주기, 사냥놀이 해주실 분', content:'4~6시 사이에 화장실 갈아주기, 사냥놀이 해주기',time:'2021-11-21'},
+    //        {index:'6',pid:'ss',title:'(11월 21일) 골든리트리버 산책시켜주실 분 구합니다.', content:'4~6시 사이에 화장실 갈아주기, 사냥놀이 해주기',time:'2021-11-21'},
+    //        {index:'7',pid:'ss',title:'(11월 21일) 코숏 치즈냥이 애기 봐주실 분 있나요', content:'4~6시 사이에 화장실 갈아주기, 사냥놀이 해주기',time:'2021-11-21'}
+      ]);
+
+    const renderItem = ({item})=>(
+        
+        <TouchableOpacity style = {styles.contentstyle} onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time})}>
+                  <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
+                  <Text numberOfLines={3}style = {styles.noticetext}>{item.content}</Text>
+                  <View style ={{alignItems:'flex-start',top:'20%',left:'-8%',marginLeft:40}}><Text>{item.time}</Text></View>
+                  
+        </TouchableOpacity>
+        
+    );
+
+    const Icon = ()=>{
+        return(
+        <Ionicons name = 'ios-pencil' color='white'  size={35}/>
+        );
+    }
+    
+    return(
+       <SafeAreaView style = {styles.safearea}>
+            <FlatList
+                data = {Noticearray}
+                renderItem = {renderItem}
+                ketExtractor = {(item)=> item.id}
+           /> 
+           <View style = {styles.Button}>
+               <ActionButton size={50} buttonColor='#DF5F5F'  renderIcon={Icon} onPress={()=> navigation.navigate('writenotice')}/>
+                   
+             
+               
+           </View>
+       </SafeAreaView>
+    );
+    
+
+
+}
+const styles = StyleSheet.create({
+    safearea:{
+        flex:1,
+        backgroundColor:'white',
+        alignItems:'center',
+
+    },
+    contentstyle :{
+        borderColor:'#DF5F5F',
+        borderRadius:20,
+        borderWidth:1,
+        marginBottom:15,
+        width:337,
+        height:140,
+        
+        
+    },
+    noticetitle :{
+        fontSize:17, 
+        top:8,
+        marginLeft:10,
+        fontWeight:'bold'
+        
+
+    },
+    noticetext:{
+        marginTop:10,
+        top:8,
+        left:8,
+        fontSize:13,
+        margin:5,
+
+    },
+    Button:{
+        position:'absolute',
+        top:'85%',
+        left:'80%',
+        width:45,
+        height:45,
+        borderRadius:20,
+        alignItems:'center',
+    }
+
+})
+export default noticeList;
