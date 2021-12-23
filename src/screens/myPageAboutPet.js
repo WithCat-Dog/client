@@ -42,7 +42,10 @@ const myPageAboutPet = ({navigation})=>{
                 }).then(res => res.json())
                 .then((res)=> {      
                     if(res===undefined){
-                        alert('오류');
+
+
+                        Alert.alert('오류');
+
                     }else{
                         if(res.data!="0"){
                             console.log(res.data);
@@ -165,7 +168,11 @@ const myPageAboutPet = ({navigation})=>{
                 <View style={styles.InfoViewStyle}>
                     <Text style={styles.textStyle}>소개하기</Text>
                     <TextInput
+<<<<<<< HEAD
                         defaultValue={petIntro} style={[styles.textInputStyle, {height:250,borderRadius:10,borderColor:'gray'}]}
+=======
+                        defaultValue={petIntro} style={[styles.textInputStyle, {padding:10,height:250,borderRadius:10,borderColor:'gray'}]}
+>>>>>>> feature_seoyoung
                         onChangeText={(text)=>{setPetIntro(text)}}
                         multiline={true}
                         maxLength={255}

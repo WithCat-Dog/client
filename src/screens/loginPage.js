@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useState, component} from 'react';
 import { Image,SafeAreaView,View,Text,StyleSheet,TextInput, Button,Alert,TouchableOpacity ,CheckBox} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기 
 
+
 import signup from './signup';
 import {setCookie,getCookie}from '../cookie/cookie';
 //import {withRouter} from 'react-router-dom';
@@ -11,6 +12,7 @@ const loginPage = ({navigation}) => {
     const [userId , setUserId] = useState('');
     const [userPW , setUserPW] = useState('');
     //const [cookeis,setCookie,removeCookie]=(['rememberId'])
+
     const handleSubmitButton = () => {
         //입력 안할 시 
         if (!userId){alert('id를 입력해주세요');return;}
@@ -34,9 +36,11 @@ const loginPage = ({navigation}) => {
                 //navigation.navigate('mainPage');
                 //this.loginStatus; //이슈넘버(?) test
                 //this.props.history.push("MainPage"); //잘 받아오면 mainPage로 이동
+
                 
                 setCookie('rememberId',res.cookie);
                 console.log(getCookie('rememberId'));
+
                 navigation.navigate ('main')
                 
 

@@ -9,21 +9,51 @@ import logo from '../assets/images/mung.png'
 
 
 
-const action = () => {
-    Alert.alert(owner.nickname, "님에게 펫시터를 요청하시겠습니까?", [
-        {text: "취소", onPress: ()=>{console.log("취소 누름")}},
-        {text: "확인", onPress: ()=>{console.log("확인 누름")}}
-    ]);
-}
+
+
 
 
 const matching = ({route,navigation}) => {
-    
+    const [applied,appliedSet] = useState(false);
     const {owner,petSitterArray,result} = route.params;
     console.log("여기부터 matching.js");
     console.log('result',result);
+
+    console.log("owner : "+owner.nickname);
+
     const [checked,setChecked] = useState(true);
    
+    const action = (nickname) => {
+        Alert.alert(owner.nickname, "님에게 펫시터를 요청하시겠습니까?", [
+            {text: "취소", onPress: ()=>{console.log("취소 누름")}},
+            {text: "확인", onPress: ()=>{console.log("확인 누름"); sendMail(nickname);}}
+        ]);
+    }
+
+    const sendMail = (nickname)=>{
+        try{
+            console.log("들어옴"+nickname);
+            fetch('http://localhost:3030/match/sendmail', {
+                method : "POST",
+                body : JSON.stringify({
+                    owner : owner.nickname,
+                    sitter : nickname
+                }),
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+            }).then(res=>res.json())
+            .then((res)=>{
+                console.log(res);
+                if(res.success){
+                    Alert.alert("회원님의 메일함을 확인해주세요!\n"+nickname+"님의 메일 주소를 보내드렸어요!\n(스팸함도 확인 부탁드려요!)");
+                }
+            })
+        }catch(err){
+            console.log(err);
+        }
+    }
+>>>>>>> feature_seoyoung
     //owner 배열 
     //petSitter 배열 [{sid,snickname,sresidence,stype,ssex,sage,sexperience,slicense}]
 
@@ -86,7 +116,10 @@ const matching = ({route,navigation}) => {
                         <Text style={styles.textAddress}>{residence}</Text>
     
                         <View>
-                            <TouchableOpacity style={styles.choiceButton} onPress={action}>
+
+
+                            <TouchableOpacity style={styles.choiceButton} onPress={()=>{action(nickname)}}>
+
                                 <Text style={styles.choiceButtonText}>내 펫을 부탁해요!</Text>
                             </TouchableOpacity>
                         </View>

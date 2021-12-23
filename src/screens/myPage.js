@@ -4,7 +4,9 @@ import DialogInput from 'react-native-dialog-input';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import logo from '../assets/images/mung.png'
+
 import { getCookie,removeCookie } from '../cookie/cookie';
+
 const myPage = ({navigation})=>{
 
     const mounted = useRef(false);
@@ -49,6 +51,7 @@ const myPage = ({navigation})=>{
             setNicknameDialog(true);
         }
     },[]);
+<<<<<<< HEAD
     const logoutbutton = ()=>{
         try{
             fetch('http://localhost:3030/auth/logout', { 
@@ -72,6 +75,9 @@ const myPage = ({navigation})=>{
         }
 
     }
+=======
+
+>>>>>>> feature_seoyoung
     const Buttons = ({menu})=>{
         return(
             <TouchableOpacity style={styles.buttonStyle} onPress={()=>changeInfo(menu)}>
@@ -131,11 +137,14 @@ const myPage = ({navigation})=>{
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
             <View style={styles.topView}>
+<<<<<<< HEAD
                 <View>
                     <TouchableOpacity onPress={logoutbutton}>
                         <Text>로그아웃</Text>
                     </TouchableOpacity>
                 </View>
+=======
+>>>>>>> feature_seoyoung
                 <View style={{ flex:1.5,marginTop:10, justifyContent : 'center',alignItems : 'center'}}>
                     <View style={styles.imageView}>
                         <Image source={logo} style={styles.imageStyle}/>

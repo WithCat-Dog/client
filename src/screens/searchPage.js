@@ -15,8 +15,11 @@ const searchPage = ({navigation}) => {
 
 
     var searchdata = undefined;
-    const oid = "사라";
-    const onickname = "사라";
+
+
+    const oid = "ex2";
+    const onickname = "멍냥";
+
     const [otype,setType] = useState("");
     const [osize,setSize] = useState("");
     const [osex,setSex] = useState("");
@@ -127,10 +130,7 @@ useEffect( ()=>{
         })}catch(e){
             console.log(e);
         }
-        
-        
-        
-    
+
 }});
     
     

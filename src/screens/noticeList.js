@@ -1,5 +1,7 @@
 import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
+
 import { toNamespacedPath } from 'path/posix';
+
 import  React,{useCallback, useEffect,useState} from 'react';
 import { FlatList,SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView } from 'react-native';
 import ActionButton from 'react-native-action-button';
@@ -8,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const noticeList =({navigation})=>{
     var savedata=undefined;
     
+
     let today = new Date();
     useEffect(()=>{
         try{
@@ -46,6 +49,7 @@ const noticeList =({navigation})=>{
 
     const renderItem = ({item})=>(
         
+
         <TouchableOpacity style = {styles.contentstyle} onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time,wanttime:item.targetDate})}>
                   <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
                   <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
@@ -69,7 +73,9 @@ const noticeList =({navigation})=>{
                 ketExtractor = {(item)=> item.id}
            /> 
            <View style = {styles.Button}>
+
                <ActionButton size={50} buttonColor='#DF5F5F'  renderIcon={Icon} onPress={()=> navigation.navigate('writenotice',{date:today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()})}/>
+
                    
              
                
@@ -93,7 +99,11 @@ const styles = StyleSheet.create({
         borderWidth:1,
         marginBottom:15,
         width:337,
+<<<<<<< HEAD
         height:120,
+=======
+        height:140,
+>>>>>>> feature_seoyoung
         
         
     },
@@ -110,6 +120,7 @@ const styles = StyleSheet.create({
         top:8,
         left:8,
         fontSize:13,
+
 
     },
     Button:{

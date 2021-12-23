@@ -20,37 +20,9 @@ const UserList = () => {
     );
 };
 
-/*
-const ownerCon1 = ['부탁할 펫', '펫의 크기', '선호하는 펫시터의 성별'];
-const ownerCon2 = ['선호하는 펫시터의 연령대', '펫 키워본 경험', '자격증 유뮤'];
-const ownerCon = ['부탁할 펫', '펫의 크기', '선호하는 펫시터의 성별', '선호하는 펫시터의 연령대', '펫 키워본 경험', '자격증 유뮤'];
-
-const sitterCon1 = ['가능한 펫', '가능한 크기', '성별'];
-const sitterCon2 = ['연령대', '펫 키워본 경험', '자격증'];
 
 
 
-const ConditionList1 = () => {
-    return (
-        <View style={{flexDirection: 'row'}}>
-            <Text style={styles.text}>{conditions1.map()}</Text>
-            <Text style={styles.text}> : </Text>
-            <Text style={styles.text}>{con1.map}</Text>
-        </View>
-    )
-}
-
-const ownerConList = ownerCon.map((key) => {
-    return (
-        <View style={{flexDirection: 'row'}}>
-            <Text style={styles.text}>{key}</Text>
-            <Text style={styles.text}> : </Text>
-            <Text style={styles.text}>\t</Text>
-        </View>
-    );
-});
-
-*/
 
 const UserScroll = ({equals, image, nickname, con1, con2, address}) => {
     return (
@@ -96,7 +68,9 @@ const UserScroll = ({equals, image, nickname, con1, con2, address}) => {
                     <Text style={styles.textAddress}>{address}</Text>
 
                     <View>
-                        <TouchableOpacity style={styles.choiceButton} onPress={action}>
+
+                        <TouchableOpacity style={styles.choiceButton} onPress={()=>{action(nickname)}}>
+
                             <Text style={styles.choiceButtonText}>내 펫을 부탁해요!</Text>
                         </TouchableOpacity>
                     </View>
@@ -107,12 +81,37 @@ const UserScroll = ({equals, image, nickname, con1, con2, address}) => {
     );
 };
 
-const action = () => {
-    Alert.alert("닉네임", "님에게 펫시터를 요청하시겠습니까?", [
+const action = (nickname) => {
+    Alert.alert("", nickname+"님에게 펫시터를 요청하시겠습니까?", [
         {text: "취소", onPress: ()=>{console.log("취소 누름")}},
-        {text: "확인", onPress: ()=>{console.log("확인 누름")}}
+        {text: "확인", onPress: ()=>{console.log("확인 누름"); sendMail(nickname);}}
     ]);
 }
+
+const sendMail = (nickname)=>{
+    try{
+        console.log("들어옴"+nickname);
+        fetch('http://localhost:3030/match/sendmail', {
+            method : "POST",
+            body : JSON.stringify({
+                owner : owner.nickname,
+                sitter : nickname
+            }),
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+        }).then(res=>res.json())
+        .then((res)=>{
+            console.log(res);
+            if(res.success){
+                Alert.alert("회원님의 메일함을 확인해주세요!\n"+nickname+"님의 메일 주소를 보내드렸어요!\n(스팸함도 확인 부탁드려요!)");
+            }
+        })
+    }catch(err){
+        console.log(err);
+    }
+}
+
 
 const applier = ({route,navigation}) => {
     const {title} = route.params;

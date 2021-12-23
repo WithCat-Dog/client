@@ -6,6 +6,13 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const main =({navigation})=>{
 
+    const [Mainnotices,SetMainnotices]=useState( []);
+
+    useEffect( ()=>{
+        SetMainnotices(Mainnotices)
+    },[Mainnotices]);
+
+
     useEffect(()=>{
         try{
             fetch('http://localhost:3030/post/postList', { 
@@ -20,6 +27,9 @@ const main =({navigation})=>{
                 }else{
                     for (let i =res.data.length-1;i>=res.data.length-3;i--){        
                         savedata = res.data[i];
+
+                        console.log("savedata:"+savedata);
+
                         SetMainnotices(Mainnotices=>([...Mainnotices, savedata]));                            
                     }    
                 } 
@@ -33,7 +43,10 @@ const main =({navigation})=>{
         
         <TouchableOpacity style = {styles.contentstyle} onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time})}>
                   <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
+
                   <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
+
+
                   <View style ={{alignItems:'flex-end',top:'20%',left:'-8%'}}><Text>{item.time}</Text></View>
                   
         </TouchableOpacity>
@@ -87,10 +100,7 @@ const main =({navigation})=>{
             </ScrollView>
         )
     }
-    const [Mainnotices,SetMainnotices]=useState( 
-                [
-                         ]
-    );
+
     
                 
     

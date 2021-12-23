@@ -19,8 +19,10 @@ import ImagePicker, {launchImageLibrary,showImagePicker} from 'react-native-imag
 
 
 
+
 const writeBoard = ({route,navigation}) => {
-    const {date} = route.params;
+
+
     const [title ,setTitle] = useState('');
     const [content , setContent] = useState('');
     const [imageis,setImageis] = useState(false);
@@ -28,8 +30,10 @@ const writeBoard = ({route,navigation}) => {
     const [source, setSource] = useState();
     const [all, setAll] = useState();
     const [url, setUrl] = useState(undefined);
+
     const [time, setTime] = useState('');
     let today = new Date();
+
      useEffect( ()=>{
         if(source!=undefined){
             console.log("여기서 : "+source);
@@ -73,7 +77,7 @@ const writeBoard = ({route,navigation}) => {
     
     const handleContents = async()=>{
         console.log(url);
-        console.log('여기여기;여기'+date+'  '+time);
+
         await fetch('http://localhost:3030/post/contents', {
             method : "POST",
             body : JSON.stringify({
@@ -83,6 +87,7 @@ const writeBoard = ({route,navigation}) => {
                 content : content,
                 time : (today.getMonth()+1)+'-'+today.getDate(),
                 targetDate:(date+'  '+time)
+
             }),
             headers : {
                 'Content-Type': 'application/json',
@@ -131,6 +136,7 @@ const writeBoard = ({route,navigation}) => {
 
 
                     </View>
+
                     <View style = {{flexDirection:'row',alignItems:'center',marginTop:5}}>
                         <Text style = {{fontSize:17,fontWeight:'bold',marginRight:5,}}>날짜 선택{'>'}</Text>
                         <TouchableOpacity  style ={writeBoardDesign.cameraIcon}> 
@@ -149,6 +155,7 @@ const writeBoard = ({route,navigation}) => {
                         </View>
                         </View>
                     </View>
+
                     <View style={writeBoardDesign.contentView}>
 
                         <View style={writeBoardDesign.photoView}>
@@ -165,8 +172,6 @@ const writeBoard = ({route,navigation}) => {
                         <TextInput 
                                         placeholder = "내용을 입력하세요.ex) 지역,원하는 요구사항, 펫의 종류, 지역, 펫시터 페이 등 상세하게 작성할 수록 펫시터 지원률이 높아집니다."
                                         onChangeText = { (text)=>{setContent(text)}}
-            
-                    
                                         maxLength={200}
                                         multiline={true}
                                         
@@ -183,6 +188,7 @@ const writeBoard = ({route,navigation}) => {
                         <TouchableOpacity style={writeBoardDesign.button} onPress={()=>{
                             handleContents();              
                             navigation.navigate('boardDetail',{id:'ex2',title:title,content:content,url:url,time:(today.getMonth()+1)+'-'+today.getDate(),wanttime:(date+'  '+time)})
+
                         }}>
                             <Text style={writeBoardDesign.buttonText}>게시</Text>
                         </TouchableOpacity>

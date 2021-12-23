@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const boardDetail = ({route, navigation})=>{
+
     const { id,index,title,content,url ,time,wanttime} = route.params;
     console.log('want time',wanttime);
     console.log('board detail ',url);
@@ -53,6 +54,38 @@ const boardDetail = ({route, navigation})=>{
         console.log(e);
     }
     }
+
+
+    
+    const handleApplyButton = ()=>{
+        try{
+            console.log("지원하기 함수 들어옴");
+            fetch("http://localhost:3030/match/apply",{
+                method : "POST",
+                headers : {
+                    'Content-Type': 'application/json',
+                },
+                body : JSON.stringify({
+                    id : "ex1", // <---- 현재 로그인되어있는 사용자의 아이디로 변경해야함
+                    index : index
+                })
+            }).then(res=>res.json())
+            .then(res=>{
+                if(res.success) {
+                    console.log("지원완료!");
+                    Alert.alert("지원완료","구인글에 지원을 완료했어요!");
+                }
+                else if(!res.success) {
+                    console.log("이미 지원한 게시글");
+                    Alert.alert("이미 지원한 구인글입니다!");
+                }
+            });
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+
     return (
         <SafeAreaView style={writeBoardDesign.safeView}>
             
@@ -69,6 +102,7 @@ const boardDetail = ({route, navigation})=>{
                                     <Text>삭제</Text>
                                 </TouchableOpacity>
                               </View>
+
                     </View>
                     <View style={{alignItems:'flex-end',margin:5}}>
                             <Text>
@@ -78,7 +112,10 @@ const boardDetail = ({route, navigation})=>{
                     
                     <View style={writeBoardDesign.photoView}>
 
+
                             <Image style={{width:'100%',height:'100%'}}  source={{uri:url}}/>
+
+
                     </View>
                     <View style = {{alignItems:'flex-end',marginBottom:7}}>
                         <Text>
@@ -89,6 +126,7 @@ const boardDetail = ({route, navigation})=>{
                         <Text style = {{fontSize:19,fontWeight:'bold'}}>내 펫을 부탁해요! 기간:</Text>
                         <Text style = {{fontSize:17,marginLeft:15,marginTop:5,marginBottom:5}}>{wanttime}</Text>
                     </View>
+
                     <View style={writeBoardDesign.contentView}>
                         
                         <View style={writeBoardDesign.textView}>
@@ -101,19 +139,28 @@ const boardDetail = ({route, navigation})=>{
                     {applier ? 
                     (
                         <View style={writeBoardDesign.buttonView}>
+
                         <TouchableOpacity style={writeBoardDesign.button} onPress={()=>handleImg()} onPress={()=>navigation.navigate('applier',{title:title})}>
+
                             <Text style={writeBoardDesign.buttonText}>지원자 보기</Text>
                         </TouchableOpacity>
                     </View>
                     ):(
                         <View style={writeBoardDesign.buttonView}>
-                        <TouchableOpacity style={writeBoardDesign.button} onPress={()=>handleImg()} onPress={()=>Alert.alert({id},"님에게 펫시터를 지원하시겠습니까?",[{text:"아니요",onPress:()=>console.log("아니래"),},{text:"네",onPress:()=>console.log("지원한대"),}])}>
+
+                        
+                        <TouchableOpacity style={writeBoardDesign.button} onPress={()=>handleImg()} 
+                            onPress={()=>Alert.alert({id},"님에게 펫시터를 지원하시겠습니까?",
+                                [{text:"아니요",onPress:()=>console.log("아니래"),},
+                                {text:"네",onPress:()=>{console.log("지원한대"); handleApplyButton();}}])}>
+
                             <Text style={writeBoardDesign.buttonText}>지원하기</Text>
                         </TouchableOpacity>
                     </View>
                     )}
                 </View>  
         </SafeAreaView>
+
 
     );
 }
@@ -123,6 +170,10 @@ const writeBoardDesign = StyleSheet.create({
     titleView:{height:50,padding:5,borderRadius:2 ,borderBottomColor:'gray', borderBottomWidth:1},
     contentView:{height:150,borderRadius:10 ,  borderBottomColor:'gray',borderBottomWidth:1, backgroundColor:'white',borderTopColor:'gray',borderTopWidth:1,},
     photoView:{left:'10%',width:200,height:200, alignItems : 'center', margin : 30},
+
+    
+
+
     cameraView:{flex:2},
     text:{fontSize:15},
     titleText:{fontSize:18,marginLeft:5,fontWeight:'bold'},
