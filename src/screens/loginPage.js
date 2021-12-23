@@ -12,7 +12,7 @@ const loginPage = ({navigation}) => {
     const [userId , setUserId] = useState('');
     const [userPW , setUserPW] = useState('');
     //const [cookeis,setCookie,removeCookie]=(['rememberId'])
-
+   
     const handleSubmitButton = () => {
         //입력 안할 시 
         if (!userId){alert('id를 입력해주세요');return;}
@@ -31,15 +31,16 @@ const loginPage = ({navigation}) => {
         .then(res => res.json()) //fetch를 호출하면 가져올 객체 
         .then(res => {
             if (res.success) {
-                console.log('%{userID}');
+            ;
                 alert('login 성공');
                 //navigation.navigate('mainPage');
                 //this.loginStatus; //이슈넘버(?) test
                 //this.props.history.push("MainPage"); //잘 받아오면 mainPage로 이동
 
-                
-                setCookie('rememberId',res.cookie);
-                console.log(getCookie('rememberId'));
+               
+                setCookie('rememberId',res.cookie, {maxAge:10000*60});
+                console.log(res.cookie);
+                console.log('로그인성공'+getCookie('rememberId'));
 
                 navigation.navigate ('main')
                 

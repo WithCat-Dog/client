@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState,} from 'react';
+import React, {useCallback, useEffect, useMemo, useState, useRef} from 'react';
 import {
     Modal,
     KeyboardAvoidingView, 
@@ -15,8 +15,10 @@ import {
     Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { getCookie } from '../cookie/cookie';
 
 const boardDetail = ({route, navigation})=>{
+    const mounted = useRef(false);
 
     const { id,index,title,content,url ,time,wanttime} = route.params;
     console.log('want time',wanttime);
@@ -25,6 +27,16 @@ const boardDetail = ({route, navigation})=>{
     const [pickerResponse , setPickerResponse] = useState(null);
     const [visible, setVisible] = useState(false);
     const [applier,applierChecked] = useState(false); //펫시터 찾는 사람인지 지원하는 사람인지에 따라 다른
+
+    useEffect(()=>{
+        if(!mounted.current){
+            if(getCookie("rememberId")===id){
+                applierChecked(!applier);
+            }
+            console.log("지금 쿠기 : " +getCookie("rememberId")+", 지금 게시글 작성자 : "+id);
+        }
+        else mounted.current=true;
+    },[]);
     console.log(id,index,title,content, url);
 
     const deletepost = ()=>{
@@ -94,14 +106,18 @@ const boardDetail = ({route, navigation})=>{
                             <Text style={writeBoardDesign.titleText} numberOfLines={3} >
                                 {title}
                             </Text>
-                            <View style = {{alignItems:'flex-end'}}>   
-                                <TouchableOpacity onPress={()=>Alert.alert("수정","수정하시겠습니까?",[{text:"취소",onPress:()=>console.log("수정안한대"),},{text:'수정',onPress:()=>console.log('수정한대')}])}>
+                            {applier?
+                                <View style = {{alignItems:'flex-end'}}>   
+                                    <TouchableOpacity onPress={()=>Alert.alert("수정","수정하시겠습니까?",[{text:"취소",onPress:()=>console.log("수정안한대"),},{text:'수정',onPress:()=>console.log('수정한대')}])}>
 
-                                </TouchableOpacity>
-                                <TouchableOpacity  onPress={()=>Alert.alert("삭제","삭제하시겠습니까?",[{text:"취소",onPress:()=>console.log("아니래"),},{text:"삭제",onPress:()=>{deletepost()}},],)}>
-                                    <Text>삭제</Text>
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity  onPress={()=>Alert.alert("삭제","삭제하시겠습니까?",[{text:"취소",onPress:()=>console.log("아니래"),},{text:"삭제",onPress:()=>{deletepost()}},],)}>
+                                        <Text>삭제</Text>
+                                    </TouchableOpacity>
                               </View>
+                            :<View></View>
+                            }
+
 
                     </View>
                     <View style={{alignItems:'flex-end',margin:5}}>
@@ -140,7 +156,7 @@ const boardDetail = ({route, navigation})=>{
                     (
                         <View style={writeBoardDesign.buttonView}>
 
-                        <TouchableOpacity style={writeBoardDesign.button} onPress={()=>handleImg()} onPress={()=>navigation.navigate('applier',{title:title})}>
+                        <TouchableOpacity style={writeBoardDesign.button} onPress={()=>navigation.navigate('applier',{title:title,postIndex:index})}>
 
                             <Text style={writeBoardDesign.buttonText}>지원자 보기</Text>
                         </TouchableOpacity>
@@ -149,7 +165,7 @@ const boardDetail = ({route, navigation})=>{
                         <View style={writeBoardDesign.buttonView}>
 
                         
-                        <TouchableOpacity style={writeBoardDesign.button} onPress={()=>handleImg()} 
+                        <TouchableOpacity style={writeBoardDesign.button} 
                             onPress={()=>Alert.alert({id},"님에게 펫시터를 지원하시겠습니까?",
                                 [{text:"아니요",onPress:()=>console.log("아니래"),},
                                 {text:"네",onPress:()=>{console.log("지원한대"); handleApplyButton();}}])}>

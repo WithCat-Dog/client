@@ -2,16 +2,43 @@ import React, { Component,useEffect ,useState} from 'react';
 import { SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView ,FlatList} from 'react-native';
 import {Thumbnail} from 'native-base';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
+import { getCookie } from '../cookie/cookie';
 
 const main =({navigation})=>{
 
+    savepetdata=undefined;
     const [Mainnotices,SetMainnotices]=useState( []);
-
+    const [Mainimages,setMainimages]=useState([
+        {mId:1,image:require('../assets/images/friends/cat.png'),petName:'체다'},
+       
+    ]);
     useEffect( ()=>{
         SetMainnotices(Mainnotices)
+        
     },[Mainnotices]);
-
+    useEffect(()=>{
+        try{
+            fetch('http://localhost:3030/mypage/petfriends', { 
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => res.json())
+            .then((res)=> {      
+                if(res===undefined){
+                    alert('오류');
+                }else{
+                    for (let i =0;i<=res.data.length-1; i++){        
+                        savepetdata = res.data[i];
+                        console.log("savepetdata:"+res.data[i].petName);
+                        setMainimages(Mainimages=>([...Mainimages, savepetdata]));                            
+                    }    
+                } 
+            })
+        }catch(e){
+            console.log(e);
+        }
+    },[]);
 
     useEffect(()=>{
         try{
@@ -27,9 +54,8 @@ const main =({navigation})=>{
                 }else{
                     for (let i =res.data.length-1;i>=res.data.length-3;i--){        
                         savedata = res.data[i];
-
-                        console.log("savedata:"+savedata);
-
+                        console.log("savedata:"+res.data[i]);
+                        console.log('logtincookiew',getCookie('rememberId'));
                         SetMainnotices(Mainnotices=>([...Mainnotices, savedata]));                            
                     }    
                 } 
@@ -54,52 +80,47 @@ const main =({navigation})=>{
     );
     
     //const [noticeboard,setnoticeboard] = useState('');
-    const Mainimages=[
-        {id:1,image:require('../assets/images/friends/cat.png'),petname:'체다'},
-        {id:2,image:require('../assets/images/friends/dog.png'),petname:'제로'},
-        {id:3,image:require('../assets/images/friends/dog2.png'),petname:'판다'},
-        {id:4,image:require('../assets/images/friends/cat2.jpeg'),petname:'쫀떡'},
     
-    ];
     
-    const Imagescroll = ({image,petname}) =>{
+    const Imagescroll = ({item}) =>{
         return (
             <View>
-            <Image style={styles.friendimage} source={image}/>
+            <Image style={styles.friendimage} source={{url:item.url}}/>
             <View style={{alignItems:'center'}}>
-                <Text style = {{fontSize:15}}>{petname}</Text>
+                <Text style = {{fontSize:15}}>{item.petName}</Text>
+                {console.log(item.mId)}
             </View>
             </View>
             
         );
     }
-    const Imagelist = ()=>{
-        return(
-            <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={true}
-            scrollEnable={true}
-            contentContainerStyle={{
-                position:'relative',
-                alignItems:'center',
-                paddingStart:15,
-                paddingEnd:5,
-                height:120,
-                marginTop:30,
-                flex:1
+    // const Imagelist = ()=>{
+    //     return(
+    //         <ScrollView
+    //         horizontal={true}
+    //         showsHorizontalScrollIndicator={true}
+    //         scrollEnable={true}
+    //         contentContainerStyle={{
+    //             position:'relative',
+    //             alignItems:'center',
+    //             paddingStart:15,
+    //             paddingEnd:5,
+    //             height:120,
+    //             marginTop:30,
+    //             flex:1
                   
-            }}
-            >
+    //         }}
+    //         >
             
-            {Mainimages.map((images,id)=>(
-                <Imagescroll key={id} {...images}/>
+    //         {Mainimages.map((images,id)=>(
+    //             <Imagescroll key={id} {...images}/>
     
-            ))}
+    //         ))}
             
             
-            </ScrollView>
-        )
-    }
+    //         </ScrollView>
+    //     )
+    // }
 
     
                 
@@ -114,7 +135,19 @@ const main =({navigation})=>{
                 <TouchableOpacity style = {styles.petmorebutton} onPress={()=>navigation.navigate('petList')}><Text>더보기</Text></TouchableOpacity>
                 </View>
                 <View style={{height:120,flex:2}}>
-                <Imagelist/>
+                <FlatList 
+                    data = {Mainimages}
+                    renderItem={Imagescroll}
+                    keyExtractor={(item)=>item.mId}
+                    horizontal={true}
+                    style = {{position:'relative', 
+                                // alignItems:'center',
+                               paddingStart:15,
+                               paddingEnd:5,
+                                 height:120,
+                                 marginTop:30,
+                                 flex:1}}
+                />
                 </View>
                 
             </View>
@@ -133,7 +166,7 @@ const main =({navigation})=>{
                 data = {Mainnotices}
                 renderItem = {renderItem}
                 ketExtractor = {(item)=> item.id}
-                style={{left:'6%',top:'3%',flex:2}}
+                style={{left:'6%',top:'3%',flex:3}}
            /> 
             </View>
             

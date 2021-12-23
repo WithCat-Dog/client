@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Alert, Image, T
 import logo from '../assets/images/mung.png'
 import ImagePicker, {launchImageLibrary,showImagePicker} from 'react-native-image-picker';
 import { Flex } from 'native-base';
-
+import { getCookie } from '../cookie/cookie';
 
 const myPageAboutPet = ({navigation})=>{
     const mounted = useRef(false);
@@ -29,24 +29,25 @@ const myPageAboutPet = ({navigation})=>{
     },[url]);
 
 
-    const loading = useEffect(async()=>{
+     useEffect(()=>{
         // if(!mounted.current){
-                await fetch('http://localhost:3030/mypage/myPetInfo', { 
+            try{
+                 fetch('http://localhost:3030/mypage/myPetInfo', { 
                     method: "POST",
                     body : JSON.stringify({
-                    id : "ex2" 
+                    id : getCookie('rememberId')
                     }),
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }).then(res => res.json())
                 .then((res)=> {      
-                    if(res===undefined){
+                    if(res.success===false){
 
 
-                        Alert.alert('오류');
+                        Alert.alert('마이펫 불러오기 실패');
 
-                    }else{
+                    }else if (res.success===true){
                         if(res.data!="0"){
                             console.log(res.data);
                             console.log("name : "+res.data.petName+" content : "+res.data.content);
@@ -55,9 +56,13 @@ const myPageAboutPet = ({navigation})=>{
                             setUrl(res.data.url);
                             setSource(res.data.url);
                         } 
+                        else{
+                            console.log('길이가 0임');
+                        }
                     } 
-                })
-        // }
+                })}catch(e){
+                    console.log(e);
+                }
         // else {
         //     mounted.current=true;
         // }
@@ -104,7 +109,7 @@ const myPageAboutPet = ({navigation})=>{
             await fetch('http://localhost:3030/mypage/contents', {
                 method : "POST",
                 body : JSON.stringify({
-                    mId : 'ex2',
+                    mId : getCookie('rememberId'),
                     urls : url,
                     petName : petName,
                     content : petIntro,

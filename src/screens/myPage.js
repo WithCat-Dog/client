@@ -11,36 +11,67 @@ const myPage = ({navigation})=>{
 
     const mounted = useRef(false);
 
-    const [name, setName] = useState('멍멍');
-    const [id, setId] = useState('mungNyang');
-    const [email, setEmail] = useState('mung@gmail.com');
-    const [nickname, setNickname] = useState('멍냥');
-    const [tel, setTel] = useState('01012345678');
+    const [name, setName] = useState('');
+    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [tel, setTel] = useState(''); 
     const [pw, setPw] = useState("");
     
     const [nicknameDialog, setNicknameDialog] = useState(false);
     const [telDialog, setTelDialog] = useState(false);
     const [pwDialog, setPwDialog] = useState(false);
 
-    useEffect( ()=>{
-        if(!mounted.current){
-            mounted.current=true;
-        }else{
-            setNickname(nickname);
-            console.log("닉넹:"+nickname);
-            handleChangeNick();
-        }
-    },[nickname]);
+    // useEffect( ()=>{
+    //     // if(!mounted.current){
+    //     //     mounted.current=true;
+    //     // }else{
+    //         setNickname(nickname);
+    //         console.log("닉넹:"+nickname);
+    //         handleChangeNick();
+        
+    // },[nickname]);  
 
-    useEffect( ()=>{
-        if(!mounted.current){
-            mounted.current=true;
-        }else{
-            setTel(tel);
-            console.log("전화번호:"+tel);
-            handleChangeTel();
+    useEffect(()=>{
+        try{
+            console.log('마이페이지 아이디',getCookie('rememberId'));
+            fetch('http://localhost:3030/mypage/userInfo', { 
+                method: "POST",
+                body: JSON.stringify({ //request에 실을 데이터(객체타입)
+                    id:getCookie('rememberId')
+                }), 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => res.json())
+            .then((res)=> {      
+                if(res.success===false){
+                    alert('개인정보 불러오기 오류');
+                   
+                }else if(res.success === true){
+                    console.log('회원가입 정보 불러오기 성공');
+                    
+                    setNickname(res.data[0].nickname);
+                    setName(name =>res.data[0].name);
+                    setTel(tel => res.data[0].tel);
+                    setEmail(tel=> res.data[0].email);
+                    setId(getCookie('rememberId'));
+                } 
+            }) 
+        }catch(e){
+            console.log(e);
         }
-    },[tel]);
+    },[]); 
+
+    // useEffect( ()=>{
+    //     // if(!mounted.current){
+    //     //     mounted.current=true;
+    //     // }else{
+    //         setTel(tel);
+    //         console.log("전화번호:"+tel);
+    //         handleChangeTel();
+        
+    // },[tel]);
 
     const changeInfo = useCallback((menu)=>{
         if(menu=="PW"){
@@ -93,16 +124,17 @@ const myPage = ({navigation})=>{
             </View>
         )
     },[nickname, tel, pw]);
-    
-    const handleChangeNick = useCallback(()=>{
+     
+    const handleChangeNick = useCallback((nick)=>{
         if(!mounted.current){
             mounted.current=true;
         }else{
+            try{
             fetch('http://localhost:3030/mypage/changeNickname', { 
                         method: "POST",
                         body: JSON.stringify({
-                            id : "ex2",
-                            newNickname : nickname
+                            id : getCookie('rememberId'),
+                            newNickname : nick
                         }),
                         headers: {
                             'Content-Type': 'application/json',
@@ -110,18 +142,22 @@ const myPage = ({navigation})=>{
                     })
                     .then(res=>res.json())
                     .then(res=>{console.log(res)})
-        }
+            }catch(e){
+                console.log(e);
+            }
+        } 
     },[]);
 
-    const handleChangeTel= useCallback(()=>{
+    const handleChangeTel= useCallback((phone)=>{
         if(!mounted.current){
             mounted.current=true;
         }else{
+            try{
             fetch('http://localhost:3030/mypage/changeTel', { 
                         method: "POST",
                         body: JSON.stringify({
-                            id : "ex2",
-                            newTel : tel
+                            id : getCookie('rememberId'),
+                            newTel : phone
                         }),
                         headers: {
                             'Content-Type': 'application/json',
@@ -129,6 +165,9 @@ const myPage = ({navigation})=>{
                     })
                     .then(res=>res.json())
                     .then(res=>{console.log(res)})
+            }catch(e){
+                console.log(e);
+            }
         }
     },[]);
     
@@ -167,12 +206,12 @@ const myPage = ({navigation})=>{
              
            </View>
            <View style ={{flex:0.9,left:'10%'}}>
-               <TouchableOpacity style = {{flex:1}}>
+               <TouchableOpacity style = {{flex:1}} onPress={()=>navigation.navigate('mynoticelist')}>
                    <Text style ={{fontSize:20,fontWeight:'bold'}}>
                        내가 쓴 게시글 보러가기
                    </Text>
                </TouchableOpacity>
-           </View>
+           </View> 
             <DialogInput isDialogVisible={pwDialog}
                 title={"비밀번호 변경"}
                 message={"새 비밀번호를 입력하세요"}
@@ -185,15 +224,16 @@ const myPage = ({navigation})=>{
                 title={"전화번호 변경"}
                 message={"새 전화번호를 입력하세요"}
                 hintInput={"전화번호 입력"}
-                submitInput = {(inputText) => {setTel(inputText); setTelDialog(false);}}
+                submitInput = {(inputText) => {setTel(inputText); setTelDialog(false);handleChangeTel(inputText);}}
                 closeDialog={()=>{setTelDialog(false)}}>
+
             </DialogInput>  
 
             <DialogInput isDialogVisible={nicknameDialog}
                 title={"닉네임 변경"}
                 message={"새 닉네임을 입력하세요"}
                 hintInput={"닉네임 입력"}
-                submitInput = {(inputText) => {setNickname(inputText); setNicknameDialog(false); }}
+                submitInput = {(inputText) => {setNickname(inputText);setNicknameDialog(false);handleChangeNick(inputText)}}
                 closeDialog={()=>{setNicknameDialog(false); }}>
             </DialogInput>  
         </SafeAreaView>

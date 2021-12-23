@@ -31,7 +31,7 @@ import petList from './src/screens/petList';
 import { setCookie,getCookie } from './src/cookie/cookie';
 import Loading from './src/screens/Loading';
 import Calendar from './src/screens/calendar';
-
+import MynoticeList from './src/screens/MynoticeList';
 
 const signupnavigation = createStackNavigator();
 const mainnavigation = createStackNavigator();
@@ -98,6 +98,9 @@ function myPageStackScreen() {
       <myPagenavigation.Screen name = 'myPage' component={myPage} />
       <myPagenavigation.Screen name = 'myPageAboutPet' component={myPageAboutPet}/>
       <myPagenavigation.Screen name = 'petdetail' component={petDetail}/>
+      <myPagenavigation.Screen name = 'mynoticelist' component={MynoticeList}/>
+      <myPagenavigation.Screen name = 'boardDetail' component={boardDetail}/>
+
     </myPagenavigation.Navigator>
   )
 }
