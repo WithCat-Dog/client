@@ -1,8 +1,9 @@
 import { SimpleGrid } from 'native-base';
-import React ,{useState}from 'react';
+import React ,{useEffect, useState}from 'react';
 import {SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ScrollView, Alert, ListViewBase} from 'react-native';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import logo from '../assets/images/mung.png'
+import Header from '../theme/Header';
 
 const matching = ({route,navigation}) => {
 
@@ -13,8 +14,7 @@ const matching = ({route,navigation}) => {
 
     console.log("owner : "+owner.nickname);
 
-    const [checked,setChecked] = useState(true);
-   
+
     const action = (nickname) => {
         Alert.alert(owner.nickname, "님에게 펫시터를 요청하시겠습니까?", [
             {text: "취소", onPress: ()=>{console.log("취소 누름")}},
@@ -107,10 +107,7 @@ const matching = ({route,navigation}) => {
                         <Text style={styles.textAddress}>{residence}</Text>
     
                         <View>
-
-
-                            <TouchableOpacity style={styles.choiceButton} onPress={()=>{action(nickname)}}>
-
+                            <TouchableOpacity style={[styles.choiceButton, {backgroundColor:'#df5f5f'}]} onPress={()=>{action(nickname);}}>
                                 <Text style={styles.choiceButtonText}>내 펫을 부탁해요!</Text>
                             </TouchableOpacity>
                         </View>
@@ -123,6 +120,7 @@ const matching = ({route,navigation}) => {
 
     return (
         <SafeAreaView style={styles.safe}>
+            <Header/>
             <View style={styles.header}>
                  <View style={[styles.box, styles.conditionBox]}>
                      <View  style={{flexDirection: 'row'}}>
@@ -149,7 +147,7 @@ const matching = ({route,navigation}) => {
              </View>
             {result ? (
                  
-             <View style={{flex: 1, top: '-20%'}}>
+             <View style={{flex: 1, top: '-30%'}}>
                 <UserList/>
              </View>
             ):(
@@ -193,7 +191,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     header: {
-        top: '12%'
+        top: '3%'
     },
     textHeader: {
         flexDirection: 'row',

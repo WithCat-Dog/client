@@ -2,16 +2,14 @@ import React, { Component,useEffect ,useState} from 'react';
 import { SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView ,FlatList} from 'react-native';
 import {Thumbnail} from 'native-base';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
 import { getCookie } from '../cookie/cookie';
 
 const main =({navigation})=>{
 
     savepetdata=undefined;
     const [Mainnotices,SetMainnotices]=useState( []);
-    const [Mainimages,setMainimages]=useState([
-        {mId:1,image:require('../assets/images/friends/cat.png'),petName:'체다'},
-       
+    const [Mainimages,setMainimages]=useState([   
+        {mId:1,image:"",petName:"",nickname:""},
     ]);
     const [Mainpets,SetMainpets] = useState([]);
     useEffect( ()=>{
@@ -35,8 +33,8 @@ const main =({navigation})=>{
                     for (let i =0;i<=res.data.length-1; i++){        
                         savepetdata = res.data[i];
                         console.log("savepetdata:"+res.data[i].petName);
-                        setMainimages(Mainimages=>([...Mainimages, savepetdata]));                            
-                           
+                        setMainimages(Mainimages=>([savepetdata, ...Mainimages]));                            
+                        
 
                     }    
                 } 
@@ -89,16 +87,22 @@ const main =({navigation})=>{
     
     
     const Imagescroll = ({item}) =>{
-        return (
-            <View>
-            <Image style={styles.friendimage} source={{url:item.url}}/>
-            <View style={{alignItems:'center'}}>
-                <Text style = {{fontSize:15}}>{item.petName}</Text>
-                {console.log(item.mId)}
-            </View>
-            </View>
-            
-        );
+        // if(item.nickname!="") {
+            return (
+                <View>
+                <Image style={styles.friendimage} source={{url:item.url}}/>
+                    {item.nickname!=""?(
+                        <View style={{alignItems:'center'}}>
+                            <Text style = {{fontSize:15}}>{item.nickname}님의</Text>
+                            <Text style = {{fontSize:15}}>{item.petName}</Text>
+                        </View>
+                    ):(
+                        <View style={{alignItems:'center'}}></View>
+                    )}
+                </View>
+                
+            );
+        // }
     }
 
    
@@ -108,27 +112,32 @@ const main =({navigation})=>{
     return(
         <SafeAreaView style = {styles.safearea}>
             <View style={styles.imagearea}>
-                <View style={{top:80,flex:1}}>
+                <View style={{top:40,flex:1}}>
 
                 <Text style = {styles.headertext}>
                     펫 친구들 구경가기
                 </Text>
                 <TouchableOpacity style = {styles.petmorebutton} onPress={()=>navigation.navigate('petList')}><Text>더보기</Text></TouchableOpacity>
                 </View>
-                <View style={{height:120,flex:2}}>
-                <FlatList 
+                <View style={{flex:4}}>
+                {Mainimages.length!=0?(
+                    <FlatList 
                     data = {Mainimages}
                     renderItem={Imagescroll}
                     keyExtractor={(item)=>item.mId}
                     horizontal={true}
                     style = {{position:'relative', 
                                 // alignItems:'center',
-                               paddingStart:15,
-                               paddingEnd:5,
-                                 height:120,
-                                 marginTop:30,
-                                 flex:1}}
+                            paddingStart:15,
+                            paddingEnd:5,
+                                height:120,
+                                marginTop:30,
+                                flex:1}}
                 />
+                ):(
+                    <View></View>
+                )}
+
                 </View>
                 
             </View>
@@ -164,7 +173,7 @@ const styles = StyleSheet.create({
     imagearea:{
         height:100,
         flexDirection:'column',
-        flex:4,
+        flex:3,
     },
     noticeheadertext:{
         fontSize:22,
@@ -172,13 +181,12 @@ const styles = StyleSheet.create({
        
         alignItems:'flex-start'
 
-        
-
     },
     headertext:{
         fontSize:22,
         left:26,
-        flex:2
+        flex:1,
+        width : 200
     }
     ,
     button:{
@@ -266,12 +274,12 @@ const styles = StyleSheet.create({
     },
     petmorebutton : {
         alignItems:'flex-end',
-        top:'-70%',
+        top:'-60%',
         left : '-10%',
-        marginBottom:10,
+        marginBottom:5,
         marginLeft : 300,
         width : 100,
-        height : "20%",
+        height : "30%",
     }
     
 });

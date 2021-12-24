@@ -6,6 +6,7 @@ import ActionButton from 'react-native-action-button';
 const MynoticeList = ({navigation})=>{
     useEffect(()=>{
         try{
+            console.log("부르는 함수 &", getCookie("rememberId"));
             fetch('http://localhost:3030/post/myPosts', { 
                 method: "POST",
                 body: JSON.stringify({ //request에 실을 데이터(객체타입)

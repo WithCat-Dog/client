@@ -122,7 +122,7 @@ const boardDetail = ({route, navigation})=>{
                     </View>
                     <View style={{alignItems:'flex-end',margin:5}}>
                             <Text>
-                                닉네임
+                                {id}
                             </Text>
                     </View>
                     
@@ -166,7 +166,7 @@ const boardDetail = ({route, navigation})=>{
 
                         
                         <TouchableOpacity style={writeBoardDesign.button} 
-                            onPress={()=>Alert.alert({id},"님에게 펫시터를 지원하시겠습니까?",
+                            onPress={()=>Alert.alert(id+"님에게 펫시터를 지원하시겠습니까?",
                                 [{text:"아니요",onPress:()=>console.log("아니래"),},
                                 {text:"네",onPress:()=>{console.log("지원한대"); handleApplyButton();}}])}>
 

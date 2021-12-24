@@ -47,7 +47,6 @@ const petList =({navigation})=>{
                 </View>
             </View>
         </TouchableOpacity>
-
     );
 
     // const Icon = ()=>{
@@ -58,6 +57,9 @@ const petList =({navigation})=>{
     
     return(
        <SafeAreaView style = {styles.safearea}>
+           <View style={styles.topbar}>
+               <Text style = {{fontSize:20,top:15}}>펫 친구들 구경하기</Text>
+           </View>
             <FlatList
                 data = {Noticearray}
                 renderItem = {renderItem}
@@ -80,6 +82,14 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         alignItems:'center',
 
+    },
+    topbar:{
+        backgroundColor:'#FFD8CC',
+        height:50,
+        width:"100%",
+        alignItems:'center',
+        position:'relative',
+        marginBottom:30
     },
     contentstyle :{
         borderColor:'#DF5F5F',

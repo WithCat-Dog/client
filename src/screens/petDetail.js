@@ -15,7 +15,6 @@ const petDetail = ({route,navigation}) => {
     <SafeAreaView style={styles.safe}>    
         <View style={styles._topView}>
             <View style={styles.nickView}>
-                <Text style={styles.infoText}>{nickname}</Text>
                 <Text style={styles.text}>{nickname}님의 펫</Text>
             </View>
             <View style={styles.imgView}>
