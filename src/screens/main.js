@@ -3,7 +3,17 @@ import { SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView
 import {Thumbnail} from 'native-base';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { getCookie } from '../cookie/cookie';
+import Header from '../theme/Header';
+import { head } from '../../../server/routes/auth';
+const header = ()=>{
+    return(
+    <View style = {styles.header}>
+        <Text style={styles.headertext}>멍냥이랑</Text>
+    </View>
+    )
 
+
+}
 const main =({navigation})=>{
 
     savepetdata=undefined;
@@ -76,6 +86,7 @@ const main =({navigation})=>{
        
     const renderItem = ({item})=>(
         <TouchableOpacity style = {item.closed?(styles.unabledContentstyle):(styles.contentstyle)} onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time})}>
+                  <Text style={{top:'5%',left:'30%' ,fontSize:16}}>{item.targetDate}</Text>
                   <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
                   <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
                  <View style ={{alignItems:'flex-end',top:'20%',left:'-8%'}}><Text>{item.time}</Text></View>
@@ -111,9 +122,11 @@ const main =({navigation})=>{
                 
     
     return(
+        
         <SafeAreaView style = {styles.safearea}>
+            {header()}
             <View style={styles.imagearea}>
-                <View style={{top:40,flex:1}}>
+                <View style={{top:40,flex:1,left:20}}> 
 
                 <Text style = {styles.headertext}>
                     펫 친구들 구경가기
@@ -175,6 +188,7 @@ const styles = StyleSheet.create({
         height:100,
         flexDirection:'column',
         flex:3,
+        top:'-3%'
     },
     noticeheadertext:{
         fontSize:22,
@@ -185,7 +199,7 @@ const styles = StyleSheet.create({
     },
     headertext:{
         fontSize:22,
-        left:26,
+        
         flex:1,
         width : 200
     }
@@ -254,7 +268,7 @@ const styles = StyleSheet.create({
     },
     noticetitle :{
         fontSize:17, 
-        top:8,
+        top:10,
         marginLeft:10,
         fontWeight:'bold'
         
@@ -262,7 +276,7 @@ const styles = StyleSheet.create({
     },
     noticetext:{
         marginTop:10,
-        top:8,
+        top:10,
         left:8,
         fontSize:13,
 
@@ -281,7 +295,22 @@ const styles = StyleSheet.create({
         marginLeft : 300,
         width : 100,
         height : "30%",
-    }
+    },
+    header:{
+        alignItems:'center',
+        height:50,
+        backgroundColor:'#FFD8CC',
+        width:'100%',
+
+    },
+    headertext:{
+        alignItems:'center',
+        fontSize:20,
+        top:15
+       
+
+    },
+    
     
 });
 

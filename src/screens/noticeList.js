@@ -5,8 +5,17 @@ import { toNamespacedPath } from 'path/posix';
 import  React,{useCallback, useEffect,useState} from 'react';
 import { FlatList,SafeAreaView, TouchableOpacity,View, Text, StyleSheet, Image,ScrollView } from 'react-native';
 import ActionButton from 'react-native-action-button';
+//mport { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+const header = ()=>{
+    return(
+    <View style = {styles.header}>
+        <Text style={styles.headertext}>펫시터 구인글 게시판</Text>
+    </View>
+    )
 
+
+}
 const noticeList =({navigation})=>{
     var savedata=undefined;
     
@@ -52,6 +61,7 @@ const noticeList =({navigation})=>{
             <TouchableOpacity style = {item.closed?(styles.unabledContentstyle):(styles.contentstyle)} 
                 disabled={item.closed?(true):(false)}
                 onPress={()=>navigation.navigate('boardDetail',{id:item.pId, index:item.index,title:item.title,content:item.content,url:item.url,time:item.time,wanttime:item.targetDate})}>
+                <Text style={{top:'5%',left:'30%' ,fontSize:16}}>{item.targetDate}</Text>
                 <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
                 <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
                 <View style ={{position:'absolute',top:'80%',left:'70%'}}><Text>{item.time}</Text></View>
@@ -67,6 +77,7 @@ const noticeList =({navigation})=>{
     
     return(
        <SafeAreaView style = {styles.safearea}>
+           {header()}
             <FlatList
                 data = {Noticearray}
                 renderItem = {renderItem}
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
     },
     noticetitle :{
         fontSize:17, 
-        top:8,
+        top:10,
         marginLeft:10,
         fontWeight:'bold'
         
@@ -122,7 +133,7 @@ const styles = StyleSheet.create({
     },
     noticetext:{
         marginTop:10,
-        top:8,
+        top:10,
         left:8,
         fontSize:13,
 
@@ -136,7 +147,21 @@ const styles = StyleSheet.create({
         height:45,
         borderRadius:20,
         alignItems:'center',
-    }
+    },
+    header:{
+        alignItems:'center',
+        height:50,
+        backgroundColor:'#FFD8CC',
+        width:'100%',
+
+    },
+    headertext:{
+        alignItems:'center',
+        fontSize:20,
+        top:15
+       
+
+    },
 
 })
 export default noticeList;

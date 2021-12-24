@@ -14,7 +14,7 @@ import {
     CheckBox, 
     Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기 
-
+import Header from '../theme/Header';
 import { getCookie } from '../cookie/cookie';
 
 
@@ -127,8 +127,9 @@ const writeBoard = ({route,navigation}) => {
     
    
 
-    return (
+    return ( 
         <SafeAreaView style={writeBoardDesign.safeView}>
+                {Header("글 작성하기")}
                 <View style={writeBoardDesign.boardView}>
                     <View style={writeBoardDesign.titleView}>
                         <TextInput style={writeBoardDesign.titleText}
@@ -245,7 +246,8 @@ const writeBoardDesign = StyleSheet.create({
         alignItems:'center',
         
 
-    }
+    },
+   
 })
 
 export default writeBoard;

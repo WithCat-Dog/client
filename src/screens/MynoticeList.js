@@ -49,7 +49,9 @@ const MynoticeList = ({navigation})=>{
     );
 
     return(
+        
         <SafeAreaView style = {styles.safearea}>
+            {headers()}
             <FlatList
                 data = {Noticearray}
                 renderItem = {renderItem}

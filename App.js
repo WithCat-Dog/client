@@ -38,33 +38,31 @@ const mainnavigation = createStackNavigator();
 const myPagenavigation = createStackNavigator();
 const searchnavigation = createStackNavigator();
 const noticenavigation = createStackNavigator();
+const routenavigation = createStackNavigator();
 const splashnavigation = createStackNavigator();
-
 
 // function splashStackScreen(){
 //   return(
 //     <splashnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
-//       <splashnavigation.Screen name = 'splash' component = {SplashScreen}/>
+//       <splashnavigation.Screen name = 'splash' component = {Loading}/>
 //       <splashnavigation.Screen name = 'auth' component = {signupStackScreen}/>
-//       <splashnavigation.Screen name =  'mainstack' component = {mainpageStackScreen}/>
+//       <splashnavigation.Screen name =  'mainstack' component = {bottomTabs}/>
 //     </splashnavigation.Navigator>
 //   )
 // }
+ 
 
 function signupStackScreen(){
 
   return(
     <signupnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
-
-      <signupnavigation.Screen name = 'loading' component ={Loading}/>
+      <signupnavigation.Screen name = 'loading' component ={Loading} />
       <signupnavigation.Screen name = 'login' component ={loginPage}/>
-      <signupnavigation.Screen name ="main" component ={mainpageStackScreen}/>
-
-      
       <signupnavigation.Screen name = "signup1" component = {signup}/>
       <signupnavigation.Screen name = "signup2" component ={signuptwo}/>
+      <signupnavigation.Screen name ="main" component ={mainpageStackScreen}/>
       
-    </signupnavigation.Navigator>
+    </signupnavigation.Navigator> 
   );
 }
 function mainpageStackScreen(){
@@ -100,6 +98,7 @@ function myPageStackScreen() {
       <myPagenavigation.Screen name = 'petdetail' component={petDetail}/>
       <myPagenavigation.Screen name = 'mynoticelist' component={MynoticeList}/>
       <myPagenavigation.Screen name = 'boardDetail' component={boardDetail}/>
+      <myPagenavigation.Screen name = 'login' component={loginPage}/>
 
     </myPagenavigation.Navigator>
   )
@@ -107,7 +106,7 @@ function myPageStackScreen() {
 
 function noticeStackScreen(){
   return(
-    <noticenavigation.Navigator>
+    <noticenavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
       <noticenavigation.Screen name ='noticelist' component={noticeList}/>
       <noticenavigation.Screen name ='writenotice' component={writeBoard} options={writenoticebar}/>
       <noticenavigation.Screen name ='boardDetail' component={boardDetail}/>
@@ -119,7 +118,39 @@ function noticeStackScreen(){
   )
 }
 
+function bottomTabs(){
+  return(
+    <Tabs.Navigator
+          initialRouteName='Home'
+          screenOptions = {({route})=> ({
+            tabBarIcon :({focused, color, size})=> {
+              let iconName;
+              if(route.name =='Notice'){
+                iconName='clipboard-outline'
+              }else if (route.name =='Home'){
+                iconName = focused? 'home-sharp':'home-outline'
+              }else if (route.name == 'Mypage'){
+                iconName= 'person-outline'
+              }
 
+              return <Ionicons name ={iconName} size={size} color ={color} />;
+            },
+            tabBarActiveTintColor:'white',
+            tabBarInactiveTintColor:'gray',
+            tabBarStyle:{
+              backgroundColor:'#FFD8CC',
+            },
+            headerShown:false
+          })}
+          
+        >
+            <Tabs.Screen name = "Notice" component={noticeStackScreen}/>
+            <Tabs.Screen name = "Home"  component={mainpageStackScreen} /> 
+              
+            <Tabs.Screen name = "Mypage" component={myPageStackScreen}/>
+            </Tabs.Navigator>
+  )
+}
 
 const Tabs = createBottomTabNavigator();
 class App extends React.Component{
@@ -152,11 +183,14 @@ class App extends React.Component{
           
         >
             <Tabs.Screen name = "Notice" component={noticeStackScreen}/>
-           <Tabs.Screen name = "Home"  component={signupStackScreen}/> 
+            <Tabs.Screen name = "Home"  component={signupStackScreen} options={{tabBarVisible:false}}/> 
               
             <Tabs.Screen name = "Mypage" component={myPageStackScreen}/>
             </Tabs.Navigator>
-
+        {/* <routenavigation.Navigator screenOptions={{headerShown:false}}>
+        <routenavigation.Screen name="route" component={splashStackScreen} />
+          <routenavigation.Screen name ="home" component={bottomTabs}/>
+        </routenavigation.Navigator> */}
 
       </NavigationContainer>
     );
