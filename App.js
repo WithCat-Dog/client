@@ -100,7 +100,7 @@ function myPageStackScreen() {
       <myPagenavigation.Screen name = 'petdetail' component={petDetail}/>
       <myPagenavigation.Screen name = 'mynoticelist' component={MynoticeList}/>
       <myPagenavigation.Screen name = 'boardDetail' component={boardDetail}/>
-
+      <myPagenavigation.Screen name = 'login' component={loginPage}/>
     </myPagenavigation.Navigator>
   )
 }

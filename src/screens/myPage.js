@@ -4,6 +4,7 @@ import DialogInput from 'react-native-dialog-input';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import logo from '../assets/images/mung.png'
+import { CommonActions } from '@react-navigation/native';
 
 import { getCookie,removeCookie } from '../cookie/cookie';
 const header = ()=>{
@@ -97,8 +98,12 @@ const myPage = ({navigation})=>{
                 if(res.success){
                     alert('로그아웃 성공');
                     removeCookie('rememberId');
-                    
-
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index:0,
+                            routes : [{name:'login'}]
+                        })
+                    )
                 }else{
                     alert('로그아웃 실패')  
                 } 

@@ -14,7 +14,7 @@ import {
     CheckBox, 
     Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; //아이콘 불러오기 
-
+import {launchImageLibrary } from 'react-native-image-picker';
 import { getCookie } from '../cookie/cookie';
 
 

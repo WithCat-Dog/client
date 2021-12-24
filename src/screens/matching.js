@@ -16,7 +16,7 @@ const matching = ({route,navigation}) => {
 
 
     const action = (nickname) => {
-        Alert.alert(owner.nickname, "님에게 펫시터를 요청하시겠습니까?", [
+        Alert.alert(nickname, "님에게 펫시터를 요청하시겠습니까?", [
             {text: "취소", onPress: ()=>{console.log("취소 누름")}},
             {text: "확인", onPress: ()=>{console.log("확인 누름"); sendMail(nickname);}}
         ]);
