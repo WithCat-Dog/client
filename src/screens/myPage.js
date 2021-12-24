@@ -6,7 +6,15 @@ import { createStackNavigator } from 'react-navigation-stack';
 import logo from '../assets/images/mung.png'
 
 import { getCookie,removeCookie } from '../cookie/cookie';
+const header = ()=>{
+    return(
+    <View style = {styles.header}>
+        <Text style={styles.headertext}>마이페이지</Text>
+    </View>
+    )
 
+
+}
 const myPage = ({navigation})=>{
 
     const mounted = useRef(false);
@@ -169,25 +177,25 @@ const myPage = ({navigation})=>{
 
         }
     },[]);
-    
+     
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
             <View style={styles.topView}>
-                <View>
-                    <TouchableOpacity onPress={logoutbutton}>
-                        <Text>로그아웃</Text>
-                    </TouchableOpacity>
-                </View>
+                {header()}
 
                 <View style={{ flex:1.5,marginTop:10, justifyContent : 'center',alignItems : 'center'}}>
                     <View style={styles.imageView}>
                         <Image source={logo} style={styles.imageStyle}/>
                     </View>
-                    <View style = {{top:'15%' ,alignItems:'flex-end'}}>
+                    <View style = {{top:'10%' ,alignItems:'flex-end'}}>
                     <Text style = {{fontSize:18}}onPress={()=>{navigation.navigate('myPageAboutPet')}}>내 펫 정보보기 (click!)</Text>
                     </View>
                 </View>
- 
+                <View style = {{alignItems:'center', top:'2%'}}>
+                    <TouchableOpacity onPress={logoutbutton} style={{alignItems:'center',width:120,borderRadius:15,backgroundColor:'#df5f5f',height:45}}>
+                        <Text style={{top:10,color:'white',fontSize:20}}>로그아웃</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.infoView}>
                     <Info infoName="이름" info={name} />
                     <Info infoName="ID" info={id}/>
@@ -244,7 +252,7 @@ const myPage = ({navigation})=>{
         </SafeAreaView>
     )
 }
-
+ 
 const styles = StyleSheet.create({
     topView : {
         flex:8,
@@ -258,12 +266,10 @@ const styles = StyleSheet.create({
     infoView : {
         // left:20,
         flex : 3,
-        top:25,
+        top:45,
         borderTopWidth:1,
         borderRadius:25,
-        alignItems:'center',
-        
-       
+        alignItems:'center',      
     
     },
     infoNameStyle : {
@@ -288,7 +294,7 @@ const styles = StyleSheet.create({
         alignItems : "center",
         justifyContent : "space-between",
         // flex : 0.2,
-        height:70,
+        height:60,
         borderBottomColor:'gray',
         borderBottomWidth:1,
         width:'85%'
@@ -315,7 +321,22 @@ const styles = StyleSheet.create({
     imageStyle : {
         width : 120,
         height : 120
-    }
+    },
+    header:{
+        alignItems:'center',
+        height:60,
+        backgroundColor:'#FFD8CC',
+        width:'100%',
+
+    },
+    headertext:{
+        alignItems:'center',
+        fontSize:20,
+        top:15
+       
+
+    },
+    
 })
 
 export default myPage;

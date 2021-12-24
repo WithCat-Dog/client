@@ -15,7 +15,7 @@ export default Loading = ({navigation})=>{
                 navigation.navigate('login');
             }
         },2000);
-    },[])
+    },[getCookie('rememberId')])
     return (
          
         <SafeAreaView style = {{backgroundColor:'#E98580',flex:1,alignItems:'center'}}>

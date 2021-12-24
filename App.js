@@ -94,7 +94,7 @@ function searchStackScreen(){
 }
 function myPageStackScreen() {
   return(
-    <myPagenavigation.Navigator>
+    <myPagenavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
       <myPagenavigation.Screen name = 'myPage' component={myPage} />
       <myPagenavigation.Screen name = 'myPageAboutPet' component={myPageAboutPet}/>
       <myPagenavigation.Screen name = 'petdetail' component={petDetail}/>

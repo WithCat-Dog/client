@@ -55,7 +55,6 @@ const noticeList =({navigation})=>{
                 <Text numberOfLines={1} style = {styles.noticetitle}>{item.title}</Text>
                 <Text numberOfLines={2}style = {styles.noticetext}>{item.content}</Text>
                 <View style ={{position:'absolute',top:'80%',left:'70%'}}><Text>{item.time}</Text></View>
-                {console.log(item.targetDate)}
             </TouchableOpacity>
 
     );

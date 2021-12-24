@@ -27,7 +27,8 @@ const main =({navigation})=>{
                     'Content-Type': 'application/json',
                 },
             }).then(res => res.json())
-            .then((res)=> {      
+            .then((res)=> {    
+                  
                 if(res===undefined){
                     alert('오류');
                 }else{
@@ -35,6 +36,7 @@ const main =({navigation})=>{
                     for (let i =0;i<=res.data.length-1; i++){        
                         savepetdata = res.data[i];
                         console.log("savepetdata:"+res.data[i].petName);
+                        if(res.data[i].url===undefined) alert('undefined로 넘어옴');
                         setMainimages(Mainimages=>([...Mainimages, savepetdata]));                            
                            
 
@@ -91,7 +93,8 @@ const main =({navigation})=>{
     const Imagescroll = ({item}) =>{
         return (
             <View>
-            <Image style={styles.friendimage} source={{url:item.url}}/>
+            <Image style={styles.friendimage}
+                source={item.url?({url:item.url}):(require('../assets/images/mungnyang.png'))}/>
             <View style={{alignItems:'center'}}>
                 <Text style = {{fontSize:15}}>{item.petName}</Text>
                 {console.log(item.mId)}
@@ -119,7 +122,7 @@ const main =({navigation})=>{
                 <FlatList 
                     data = {Mainimages}
                     renderItem={Imagescroll}
-                    keyExtractor={(item)=>item.mId}
+                    // keyExtractor={(item)=>item.mId}
                     horizontal={true}
                     style = {{position:'relative', 
                                 // alignItems:'center',
