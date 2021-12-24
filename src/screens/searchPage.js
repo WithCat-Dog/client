@@ -14,16 +14,28 @@ import { getCookie } from '../cookie/cookie';
 const searchPage = ({navigation}) => {
 
     const mounted = useRef(false);
-
-
     var searchdata = undefined;
-
-
-
     const oid = getCookie("rememberId");
-    const onickname = "멍냥";
+    const [onickname, setOnickname] = useState("");
     //닉네임 받아오기!!
 
+    useEffect(()=>{
+        try{
+            fetch('http://localhost:3030/auth/getNickname', {
+                method : "POST",
+                body: JSON.stringify({
+                    id : getCookie("rememberId")
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res=>res.json())
+            .then((res)=>{ console.log("닉넴 : " +res.data); setOnickname(res.data);});
+        }catch(err){
+            console.log(err);
+        }
+    }, []);
+    
     const [otype,setType] = useState("");
     const [osize,setSize] = useState("");
     const [osex,setSex] = useState("");
@@ -226,7 +238,7 @@ const searchStyle = StyleSheet.create({
   },
   topbar:{
       backgroundColor:'#FFD8CC',
-      height:60,
+      height:50,
       alignItems:'center',
       position:'relative',
   },

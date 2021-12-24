@@ -15,7 +15,10 @@ const applier = ({route,navigation}) => {
     // ];
     console.log("여기가 applier");
 
-    
+    useEffect( ()=>{
+        setOwnerNickname(ownerNickname);
+    },[ownerNickname])
+
     useEffect(()=>{
         try{
             console.log("지원자 확인 들어옴"+postIndex);
@@ -177,10 +180,9 @@ const applier = ({route,navigation}) => {
 
     return (
         <SafeAreaView style={styles.safe}>
-            
             <View style={styles.header}>
                 <View style={styles.textHeader}>
-                    <Text style={styles.textHeaderNickname}>멍냥</Text>
+                    <Text style={styles.textHeaderNickname}>{ownerNickname}</Text>
                     <Text style={[styles.text, {top: '4%'}]}>님의 {title} 게시글에 지원한 지원자 목록입니다.</Text>
                 </View>
             </View>
