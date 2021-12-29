@@ -1,0 +1,200 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import * as React from 'react';
+import {View,Text} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import signup from './src/screens/signup';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import signuptwo from './src/screens/signuptwo';
+import loginPage from './src/screens/loginPage';
+import searchPage from './src/screens/searchPage';
+import mainPage from './src/screens/main';
+import myPage from './src/screens/myPage';
+import myPageAboutPet from './src/screens/myPageAboutPet';
+import matching from './src/screens/matching';
+import writeBoard from './src/screens/writeBoard';
+import writenoticebar from './src/components/writenoticeBar';
+import noticeList from './src/screens/noticeList';
+import boardDetail from './src/screens/boardDetail';
+import applier from './src/screens/applier';
+import petDetail from './src/screens/petDetail';
+import petList from './src/screens/petList';
+import MynoticeList from './src/screens/MynoticeList';
+import { setCookie,getCookie } from './src/cookie/cookie';
+import Loading from './src/screens/Loading';
+import Calendar from './src/screens/calendar';
+
+
+const signupnavigation = createStackNavigator();
+const mainnavigation = createStackNavigator();
+const myPagenavigation = createStackNavigator();
+const searchnavigation = createStackNavigator();
+const noticenavigation = createStackNavigator();
+const routenavigation = createStackNavigator();
+const splashnavigation = createStackNavigator();
+
+// function splashStackScreen(){
+//   return(
+//     <splashnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+//       <splashnavigation.Screen name = 'splash' component = {Loading}/>
+//       <splashnavigation.Screen name = 'auth' component = {signupStackScreen}/>
+//       <splashnavigation.Screen name =  'mainstack' component = {bottomTabs}/>
+//     </splashnavigation.Navigator>
+//   )
+// }
+ 
+
+function signupStackScreen(){
+
+  return(
+    <signupnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+      <signupnavigation.Screen name = 'loading' component ={Loading} />
+      <signupnavigation.Screen name = 'login' component ={loginPage}/>
+      <signupnavigation.Screen name = "signup1" component = {signup}/>
+      <signupnavigation.Screen name = "signup2" component ={signuptwo}/>
+      <signupnavigation.Screen name ="main" component ={mainpageStackScreen}/>
+      
+    </signupnavigation.Navigator> 
+  );
+}
+function mainpageStackScreen(){
+  return(
+    <mainnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+
+     <mainnavigation.Screen name="mainpage" component={mainPage}/> 
+
+      <mainnavigation.Screen name = "search" component={searchStackScreen}/>
+      <mainnavigation.Screen name = "notice" component={noticeStackScreen}/>
+      <mainnavigation.Screen name = "petList" component={petList}/>
+      <mainnavigation.Screen name = 'petdetail' component={petDetail}/>
+    </mainnavigation.Navigator>
+  )
+
+  
+}
+
+function searchStackScreen(){
+  return (
+    <searchnavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+      <searchnavigation.Screen name = "searchpage" component={searchPage}/>
+      <searchnavigation.Screen name = "searchresult" component={matching}/>
+      <searchnavigation.Screen name = "upload" component={noticeStackScreen}/>
+    </searchnavigation.Navigator>
+  )
+}
+function myPageStackScreen() {
+  return(
+    <myPagenavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+      <myPagenavigation.Screen name = 'myPage' component={myPage} />
+      <myPagenavigation.Screen name = 'myPageAboutPet' component={myPageAboutPet}/>
+      <myPagenavigation.Screen name = 'petdetail' component={petDetail}/>
+      <myPagenavigation.Screen name = 'mynoticelist' component={MynoticeList}/>
+      <myPagenavigation.Screen name = 'boardDetail' component={boardDetail}/>
+      <myPagenavigation.Screen name = 'login' component={loginPage}/>
+
+    </myPagenavigation.Navigator>
+  )
+}
+
+function noticeStackScreen(){
+  return(
+    <noticenavigation.Navigator screenOptions = {({route})=>({headerShown:false})}>
+      <noticenavigation.Screen name ='noticelist' component={noticeList}/>
+      <noticenavigation.Screen name ='writenotice' component={writeBoard} options={writenoticebar}/>
+      <noticenavigation.Screen name ='boardDetail' component={boardDetail}/>
+      <noticenavigation.Screen name ='applier' component={applier}/>
+
+      <noticenavigation.Screen name ='calendar' component={Calendar}/>
+
+    </noticenavigation.Navigator>
+  )
+}
+
+function bottomTabs(){
+  return(
+    <Tabs.Navigator
+          initialRouteName='Home'
+          screenOptions = {({route})=> ({
+            tabBarIcon :({focused, color, size})=> {
+              let iconName;
+              if(route.name =='Notice'){
+                iconName='clipboard-outline'
+              }else if (route.name =='Home'){
+                iconName = focused? 'home-sharp':'home-outline'
+              }else if (route.name == 'Mypage'){
+                iconName= 'person-outline'
+              }
+
+              return <Ionicons name ={iconName} size={size} color ={color} />;
+            },
+            tabBarActiveTintColor:'white',
+            tabBarInactiveTintColor:'gray',
+            tabBarStyle:{
+              backgroundColor:'#FFD8CC',
+            },
+            headerShown:false
+          })}
+          
+        >
+            <Tabs.Screen name = "Notice" component={noticeStackScreen}/>
+            <Tabs.Screen name = "Home"  component={mainpageStackScreen} /> 
+              
+            <Tabs.Screen name = "Mypage" component={myPageStackScreen}/>
+            </Tabs.Navigator>
+  )
+}
+
+const Tabs = createBottomTabNavigator();
+class App extends React.Component{
+  render(){
+
+    return (
+      <NavigationContainer>
+        <Tabs.Navigator
+          initialRouteName='Home'
+          screenOptions = {({route})=> ({
+            tabBarIcon :({focused, color, size})=> {
+              let iconName;
+              if(route.name =='Notice'){
+                iconName='clipboard-outline'
+              }else if (route.name =='Home'){
+                iconName = focused? 'home-sharp':'home-outline'
+              }else if (route.name == 'Mypage'){
+                iconName= 'person-outline'
+              }
+
+              return <Ionicons name ={iconName} size={size} color ={color} />;
+            },
+            tabBarActiveTintColor:'white',
+            tabBarInactiveTintColor:'gray',
+            tabBarStyle:{
+              backgroundColor:'#FFD8CC',
+            },
+            headerShown:false
+          })}
+          
+        >
+            <Tabs.Screen name = "Notice" component={noticeStackScreen}/>
+            <Tabs.Screen name = "Home"  component={signupStackScreen} options={{tabBarVisible:false}}/> 
+              
+            <Tabs.Screen name = "Mypage" component={myPageStackScreen}/>
+            </Tabs.Navigator>
+        {/* <routenavigation.Navigator screenOptions={{headerShown:false}}>
+        <routenavigation.Screen name="route" component={splashStackScreen} />
+          <routenavigation.Screen name ="home" component={bottomTabs}/>
+        </routenavigation.Navigator> */}
+
+      </NavigationContainer>
+    );
+  }
+}
+
+export default App;
